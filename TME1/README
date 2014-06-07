@@ -1,0 +1,76 @@
+== Participants : 1 ==
+
+	Benjamin BIELLE
+
+== Fichiers inclus ==
+
+	include/fifo.h
+		Définitions (types et opérations) pour une file (FIFO) générique
+		[Ex. 6, 7]
+		
+	include/list.h
+		Définitions (types et opérations) pour une liste doublement chaînée générique
+		[Ex. 4, 5, 6]
+
+	include/stack.h
+		Définitions (types et opérations) pour une pile (LIFO) générique
+		[Ex. 1, 2, 5]
+
+	src/fifo_test.c
+		Programme principal (main) pour tester la file générique
+		[Ex. 6]
+
+	src/stack_array.c
+		Implémentation de la pile sous forme de tableau statique
+		[Ex. 1, 2]
+
+	src/stack_test.c
+		Programme principal (main) pour tester la pile générique
+		[Ex. 1, 2, 3, 5]
+
+	src/list_impl.c
+		Squelette d'implémentation de la liste doublement chaînée (à compléter)
+		[Ex. 4, 5, 6, 7]
+
+
+== Directives de 'Makefile' ==
+
+	runstack
+		Compilation de l'implémentation stack_array.c et du programme de test de la pile (stack_test.c) au format binaire (stack_test)
+		Lancement de l'exécutable stack_test
+	
+	all
+		Renvoi vers 'runstack'
+	
+	directories
+		Création des répertoires temporaires s'ils n'existent pas déjà
+
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet, et de toutes les bibliothèques
+
+
+	cleanall
+		Suppression des répertoires et fichiers temporaires
+
+	
+	SIZE=nombre
+                Modifie la taille de la pile et la change par "nombre"
+
+== Etat d'avancement ==
+
+	L'exercice 1 (pile sous forme de tableau statique)  - OK
+	
+	L'exercice 2 (libstack.a et stack_array.o)          - OK
+
+	L'exercice 3 (modification de la taille de la pile) - OK
+
+	L'exercice 4 (liste doublement chainee)             - OK
+
+	L'exercice 5 (pile dynamique implementant stack.h)  - OK (Warning a la compilation)
+
+	L'exercice 6 (file dynamique implementant fifo.h)   - OK (Warning a la compilation)
+
+== Réponses ==
+
+	Exercice 7 :
+	
