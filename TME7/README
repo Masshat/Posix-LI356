@@ -1,0 +1,56 @@
+TME7
+
+== Participants : 1 ==
+
+	Bielle Benjamin 2900825
+	
+
+== Fichiers inclus ==
+
+   	 include/Ficindex.h
+		Definitions (types et operations) pour la bibliotheque de gestion de fichiers indexés.
+				
+         SRC/ficindex.c
+		Codes des fonctions definies dans le fichier "ficindex.h".
+	 
+	 OBJ/autotestfic.o
+		Programme client dont les sources ne sont pas fournies.
+	        
+	        	        
+== Directives de 'Makefile' ==
+
+	all
+		Compil tous les fichiers
+		
+        proper 
+		Suppression de tous les fichiers temporaires
+	
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet
+	
+	cleanall 
+		Suppression des repertoires bina et obj
+
+	run 
+		Lance le programme
+
+== Etat d'avancement ==
+
+	indopen   - OK   -- Ouvre un fichier indexé
+	
+	indclose  - OK   -- Ferme un fichier indexé
+
+	indread   - OK   -- Lit des donnees dans un ficher indexé
+
+	indwrite  - OK   -- Ecrit des donnees dans un fichier indexé
+
+	indlseek  - OK   -- Deplace le curseur dans un fichier indexé
+
+	indsearch - OK   -- Recherche une donnee dans un fichier indexé
+
+	indxchg   - NOT  -- Modifi l'indexation dans un fichier indexé
+	
+== Easter Egg ==
+
+Au debut du fichier "ficindex.c", il y a un ascii art qui fait reference au tableau de descripteur ainsi qu'a une celebre
+marque de biere.
