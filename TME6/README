@@ -1,0 +1,54 @@
+TME6
+
+== Participants : 1 ==
+
+	Bielle Benjamin 2900825
+	
+
+== Fichiers inclus ==
+
+   	 SRC/liste-rep.c
+		Liste les noms de fichiers ou sous-repertoires d'un repertoire.
+		[EX. 1]
+		
+         SRC/setfilestats.c
+		Efface, renomme ou change les droits d'un fichier existant.
+		[EX. 2]
+        
+	SRC/filefusion.c
+		Fusionne le contenu de deux fichiers dans un troisieme.
+		[EX. 3]
+		
+        SRC/findword.c
+		Cherche le nombre d'occurences d'un mot dans un fichier (et affiche la position de chaque occurence).
+		[EX. 4]
+        	
+        SRC/ex5.c
+		Redirection de l'entree standard
+		[EX. 5]
+        	        
+== Directives de 'Makefile' ==
+
+	all
+		Compil tous les fichiers
+	
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet
+	
+	proper 
+		Suppression de tous les binaires, de tous les fichiers objet
+
+
+== Etat d'avancement ==
+
+	L'exercice 1 - OK
+	
+	L'exercice 2 - OK
+	
+	L'exercice 3 - OK
+	
+	L'exercice 4 - OK
+	
+	L'exercice 5 - OK 
+			
+== Réponses ==

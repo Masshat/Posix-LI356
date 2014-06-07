@@ -1,0 +1,88 @@
+<h1 align="justify" style="text-align: center;">TME6 - Entr&eacute;es / Sorties  (1)</h1>
+<h1 style="text-align: center;">Premiers pas avec les fichiers</h1>
+<br />
+<h2 align="justify"><br />
+Objectifs</h2>
+<div align="justify">
+<ol>
+    <li>S'initier  &agrave; la gestion des entr&eacute;es/sorties.</li>
+
+    <li>Programmer des lectures/&eacute;critures de donn&eacute;es dans des fichiers.</li>
+</ol>
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<h2 align="justify">Exercices</h2>
+<h3 align="justify">Exercice 1 : Recensement du contenu d'un r&eacute;pertoire</h3>
+<div style="text-align: justify; margin-left: 40px;">Ecrivez un  programme <code>liste-rep</code> pour lister les noms des fichiers ou  sous-r&eacute;pertoires d&rsquo;un r&eacute;pertoire. <br />
+
+<br />
+Si le programme est appel&eacute; sans argument,&nbsp; le r&eacute;pertoire courant doit  &ecirc;tre list&eacute;. <br />
+Cependant, l&rsquo;usager peut passer en param&egrave;tre le nom d&rsquo;un r&eacute;pertoire :<br />
+<ul>
+
+    <li>si le r&eacute;pertoire en question existe, le programme liste son  contenu ;</li>
+    <li>s&rsquo;il n&rsquo;existe pas, le r&eacute;pertoire est cr&eacute;&eacute; comme sous-r&eacute;pertoire du  r&eacute;pertoire courant.</li>
+</ul>
+</div>
+<h3 align="justify">Exercice 2 : M&eacute;ta-donn&eacute;es associ&eacute;es &agrave; un fichier</h3>
+
+<div style="text-align: justify; margin-left: 40px;">Vous devez &eacute;crire  un programme <code>setfilestats</code> qui permet d&rsquo;effacer, de renommer ou de  changer les droits d&rsquo;un fichier existant.<br />
+<br />
+Le programme re&ccedil;oit comme param&egrave;tres :<br />
+<div style="margin-left: 40px;">- 1er param&egrave;tre : type d&rsquo;op&eacute;ration<br />
+
+<div style="margin-left: 40px;">&ldquo;E&rdquo;&nbsp; ou &ldquo;e&rdquo;pour effacer <br />
+&ldquo;R&rdquo;&nbsp; ou &ldquo;r&rdquo;&nbsp; pour renommer <br />
+&ldquo;C&rdquo; ou &ldquo;c&rdquo; pour changer les droits <b>associ&eacute;s au groupe</b></div>
+
+- 2&egrave;me param&egrave;tre : nom du fichier &agrave; modifier<br />
+- 3&egrave;me param&egrave;tre (optionnel) : <br />
+<div style="margin-left: 40px;">nouveau nom du fichier (renommage) <br />
+ou nouveaux droits (modification de droits)<br />
+<div style="margin-left: 40px;">&ldquo;R&rdquo; ou &ldquo;r&rdquo;&nbsp; (read-only)<br />
+
+&ldquo;W&rdquo; ou &ldquo;w&rdquo; (read-write)</div>
+</div>
+</div>
+<br />
+Observations:<br />
+<div style="margin-left: 40px;">- Le nom de fichier pass&eacute; en deuxi&egrave;me  param&egrave;tre ne doit pas &ecirc;tre associ&eacute; &agrave; un r&eacute;pertoire (utiliser la fonction <code> stat</code>).<br />
+
+- Pour le changement de droits en &ldquo;read-only&rdquo;, n&rsquo;oubliez pas de  conserver le droit d&rsquo;&eacute;criture au propri&eacute;taire du fichier.<br />
+- L'utilisation d'exec contenant les commandes shell mv, chmod, et rm est <b>interdite</b> !<br />
+&nbsp;</div>
+</div>
+<h3 align="justify">Exercice 3 : Fusion de contenus&nbsp;</h3>
+<div style="text-align: justify; margin-left: 40px;">On d&eacute;sire cr&eacute;er un programme <code>filefusion</code> qui prend deux fichiers sources (F1 et F2) contenant du texte pour fusionner leurs contenus dans un troisi&egrave;me fichier cible (F3).<br />
+
+Le programme v&eacute;rifie tout d'abord que tous les noms re&ccedil;us en arguments correspondent bien &agrave; des fichiers r&eacute;guliers. Le troisi&egrave;me nom de fichier peut ne pas r&eacute;f&eacute;rencer un fichier existant, auquel cas il faut cr&eacute;er un nouveau fichier.<br />
+Ensuite le programme lit le premier mot de F1 et celui de F2, puis les &eacute;crit l'un &agrave; la suite de l'autre dans F3. Il recommence cette op&eacute;ration pour tous les mots suivants, ce jusqu'&agrave; atteindre la fin d'un des deux fichiers sources.<br />
+
+<b>Remarque</b> : <i>Les fichiers texte consid&eacute;r&eacute;s ne contiennent que des mots du dictionnaire s&eacute;par&eacute;s par des espaces (pas de ponctuation ni de caract&egrave;res sp&eacute;ciaux)</i><br/>
+</div>
+<h3 align="justify">Exercice 4 : Recherche de mot-cl&eacute;</h3>
+<div style="text-align: justify; margin-left: 40px;">R&eacute;alisez un programme <code>findword</code> qui prend en arguments un nom de fichier texte et un mot, cherche le nombre d'occurences d'un mot dans un fichier, et affiche la position de chaque occurence.<br />
+
+</div>
+<h3 align="justify">Exercice 5 : Redirection de la sortie standard</h3>
+<div style="text-align: justify; margin-left: 40px;">En vous aidant de l'appel <code>dup2</code>, &eacute;crivez une fonction <code>rediriger_stdout(char *nom_fichier) </code>pour rediriger la sortie standard vers un fichier pass&eacute; comme argument &agrave; cette fonction. On consid&egrave;re que le fichier <code>nom_fichier</code> n&rsquo;existe pas. <br />
+
+Ecrivez ensuite une deuxi&egrave;me fonction pour restaurer la sortie standard <code> restaurer_stdout()</code>. <br />
+<br />
+<div style="margin-left: 40px;">Exemple : en ex&eacute;cutant le code suivant, la phrase &laquo;<code>apr&egrave;s la redirection</code>&raquo; ne sera pas affich&eacute;e &agrave; l&rsquo;&eacute;cran mais &eacute;crite dans le fichier <code>fichier.out</code>
+
+<div style="margin-left: 40px;"><code>int main (int argc, char* argv []) {<br />
+</code>
+<div style="margin-left: 40px;"><code>printf (&quot;avant la redirection \n&quot;) ;<br />
+rediriger_stdout (&quot;fichier.out&quot;) ;<br />
+printf (&quot;apr&egrave;s la redirection \n&quot;) ;<br />
+restaurer_stdout ( ) ;<br />
+
+printf (&quot;apr&egrave;s avoir restaur&eacute; stdout \n&quot;) ;<br />
+return EXIT_SUCCESS ;<br />
+</code></div>
+<code> }</code></div>
+</div>
+</div>
