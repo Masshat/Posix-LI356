@@ -1,0 +1,74 @@
+<h1 align="justify" style="text-align: center;">TME8 - Tubes</h1>
+<h2 align="justify"><br />
+Objectif</h2>
+<div align="justify">
+<div style="margin-left: 40px;">L&rsquo;objectif de ce TME est de programmer une application de conversion de devises en utilisant l&rsquo;interface de programmation POSIX pour les tubes. <br />
+Pour vous faciliter la vie, des structures de donn&eacute;es ainsi que des fonctions attenantes &agrave; la conversion de devises sont mises &agrave; votre disposition dans les fichiers <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME8/converters.h"><code>converters.h</code></a> et <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME8/converters.c"><code>converters.c</code></a></div>
+
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<h2 align="justify">Exercices</h2>
+<h3 align="justify">Exercice 1 : Tubes anonymes</h3>
+<div style="text-align: justify; margin-left: 40px;">Ecrire un programme <code>single_converter</code> qui convertit un montant, exprim&eacute; dans une devise quelconque en des devises pr&eacute;d&eacute;finies (<a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME8/converters.h"><code>cf. fichier converters.h</code></a>), et affiche le r&eacute;sultat de la conversion. <br />
+
+<br />
+Les  param&egrave;tres de conversion sont entr&eacute;s par l&rsquo;utilisateur comme arguments  du programme de conversion au format suivant :&nbsp; <br />
+<div style="margin-left: 40px;"><code>single_converter &lt;<i>devise</i>&gt;  &lt;<i>montant</i>&gt;<br />
+</code>
+<div style="margin-left: 40px;"><i><code>devise</code></i> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  repr&eacute;sente la devise source,<br />
+
+<i><code>montant</code></i> &nbsp;&nbsp;&nbsp; correspond au montant &agrave;  convertir dans la devise cible.</div>
+</div>
+<br />
+Ce programme met en  &oelig;uvre 2 processus :<br />
+Le processus p&egrave;re recueille les param&egrave;tres qui constituent la requ&ecirc;te utilisateur, cr&eacute;e un fils qui effectuera la conversion, puis attend le r&eacute;sultat en lecture dans un tube anonyme avant de l'afficher.<br />
+
+Le  processus fils effectue la conversion et transmet le r&eacute;sultat &agrave; son p&egrave;re  au moyen d'un tube anonyme.<br />
+<br />
+Exemple de trace de r&eacute;sultat :
+<div style="margin-left: 40px;"><code>$ ./single_converter  CNY &quot;100.0&quot;<br />
+P1694&gt; Converting CNY 100.000<br />
+Conversion for: CNY  100.000<br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EUR 10.246<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GBP 6.985<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USD  12.358<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JPY 1406.791<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CNY 100.000</code></div>
+</div>
+<h3 align="justify">Exercice 2 : Tubes nomm&eacute;s</h3>
+
+<div style="text-align: justify; margin-left: 40px;">On se propose de reprendre l&rsquo;exercice 1, avec pour diff&eacute;rence que la conversion sera prise en charge par un programme <code>conversion_server</code> qui boucle en attente de requ&ecirc;tes de conversion, ces derni&egrave;res lui &eacute;tant soumises au moyen d'un programme <code>conversion_client</code>.<br />
+<br />
+L&rsquo;utilisateur doit pouvoir ouvrir deux fen&ecirc;tres de terminal, et lancer un programme serveur dans l&rsquo;une puis un programme client dans l&rsquo;autre.<br />
+
+Format des  commandes de lancement :<br />
+<div style="margin-left: 40px;"><code>$  conversion_server &lt;<i>nom_tube_requete</i>&gt; &lt;<i>nom_tube_reponse</i>&gt;<br />
+$ conversion_client &lt;<i>nom_tube_requete</i>&gt; &lt;<i>nom_tube_reponse</i>&gt;  &lt;<i>devise</i>&gt; &lt;<i>montant</i>&gt;<br />
+</code>
+
+<div style="margin-left: 40px;"><i><code>nom_tube_requete</code></i><code> </code> &nbsp;&nbsp;&nbsp; contient le chemin du tube par lequel transitent les requ&ecirc;tes.<br />
+<i><code>nom_tube_reponse</code></i>  &nbsp;&nbsp;&nbsp; contient le chemin du tube par lequel transitent les r&eacute;ponses<br />
+<i>devise</i> &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; repr&eacute;sente la devise source, ie. <br />
+
+<i>montant</i> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;correspond au montant &agrave; convertir dans la devise cible.</div>
+</div>
+<br />
+Les param&egrave;tres  entr&eacute;s comme arguments de <code>conversion_client</code> sont transmis au serveur au moyen d'un tube nomm&eacute;. Le serveur effectue la conversion puis renvoie le r&eacute;sultat au client au moyen d'un autre tube nomm&eacute;. Enfin le client affiche le r&eacute;sultat re&ccedil;u en r&eacute;ponse &agrave; sa requ&ecirc;te.<br />
+
+Lorsqu&rsquo;il  est interrompu, le serveur ferme les tubes nomm&eacute;s et les d&eacute;truit.<br />
+<br />
+&nbsp;</div>
+<h3 align="justify">Exercice 3 : Acc&egrave;s non bloquants<a name="TME8EX3"></a></h3>
+<div style="text-align: justify; margin-left: 40px;">On d&eacute;sire maintenant parall&eacute;liser le traitement des conversions. En reprenant l&rsquo;exercice 2, il va s'agir ici de faire tra&icirc;ter par un processus distinct chaque conversion dans une devise donn&eacute;e. <br />
+
+<br />
+Le nouveau programme serveur, nomm&eacute; <code>multi_converter</code>, cr&eacute;e <code>NB_CONVERTERS</code> processus fils. Chacun de ces fils prend en charge la conversion dans une devise convenue. A chaque r&eacute;ception de requ&ecirc;te, le p&egrave;re distribue le travail parmi ses fils au moyen de tubes anonymes. Lorsqu'un fils termine une conversion, il renvoie le r&eacute;sultat au p&egrave;re au moyen d'un tube anonyme qui lui est allou&eacute;. Quand le p&egrave;re a re&ccedil;u le r&eacute;sultat de chacun de ses fils, il renvoie la r&eacute;ponse compl&egrave;te &agrave; son client.<br />
+
+<br />
+Afin d'optimiser  les performances du programme serveur, on tient &agrave; ce que les lectures de r&eacute;sultats par le processus p&egrave;re se fassent en mode non-bloquant. Pour que cela fonctionne, &agrave; chaque fois qu'un processus fils a fini d'&eacute;crire un r&eacute;sultat dans son tube de r&eacute;ponse, il envoie un signal <code>SIGUSR1</code> au p&egrave;re pour lui signifier qu'un r&eacute;sultat est disponible. Tant qu'il n'a pas re&ccedil;u ses <code>NB_CONVERTERS</code> r&eacute;sultats, le p&egrave;re se met en attente de signaux.<br />
+
+<br />
+&nbsp;</div>

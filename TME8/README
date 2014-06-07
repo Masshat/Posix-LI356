@@ -1,0 +1,55 @@
+== Participants : 1 ==
+
+   Bielle Benjamin
+
+== Fichiers inclus ==
+
+   src/single_converter.c:
+	crée un fils qui effectura la conversion puis les transmetra à son père via un tube anonyme. usage : single_converter <devise> <montant>
+	
+   src/conversion_client.c:
+	client des deux server. envoie la requete au serveur via le tube nommé requete et attend la réponse du server via le tube nommé reponse. usage : converters_client <requete> <reponse> <devise> <montant>
+
+   src/conversion_server.c:
+	attend la requete d'un client, effectue la conversion puis la renvoi au client. usage : converters_server <requete> <reponse>
+
+   src/multi_converter.c:
+	attend la requete d'un client puis crée un fils par devise qui traiteront leur requete et renverront leurs reponse au serveur qui la renverra au client. usage : multi_converters <requete> <reponse>				    
+
+== Directives de 'Makefile' ==
+   
+   all
+	Compil tous les fichiers
+
+   proper
+	Supprime tous les fichiers temporaires
+
+   clean
+	Supprime tous les fichiers .o et les executables
+
+   cleanall
+	Supprime les repertoires obj et bin
+
+   run1
+	Lancement de l'exécutable single_converter
+        ${BIN}/SINGLE_CONVERTER CNY "100.0"		
+
+   run2
+	lancement du client et de converter_server tel que : 
+        ${BIN}/CONVERSION_SERVER ${BIN}/prequete ${BIN}/preponse &
+        ${BIN}/CONVERSION_CLIENT ${BIN}/prequete ${BIN}/preponse CNY "100.0" &
+
+   run3
+        lancement du client et de multi_converter tel que :
+        ${BIN}/MULTI_CONVERTER ${BIN}/prequete ${BIN}/preponse &
+	${BIN}/CONVERSION_CLIENT ${BIN}/prequete ${BIN}/preponse CNY "100.0" &
+
+== Etat d'avancement ==
+
+   single_converter  - OK
+
+   conversion_client - OK
+
+   conversion_server - OK
+
+   multi_converter   - OK
