@@ -1,0 +1,70 @@
+TME5
+
+== Participants : 1 ==
+
+	Bielle Benjamin 2900825
+	
+
+== Fichiers inclus ==
+
+   	 SRC/mywait.c
+		Fonction "mywait" -> simulation de la fonction "wait"
+		[EX. 1]
+		
+         SRC/mysleep.c
+		Fonction "mysleep" -> simulation de la fonction "sleep"
+		[EX. 2]
+        
+	SRC/synchro3.c
+		Synchronisation de 3 processus
+		[EX. 3]
+		
+        SRC/control.c
+		Point de Reprise (Après N signaux SIGINT reçus ou un signal SIGALRM , le programme se termine)
+		[EX. 4]
+        	        
+== Directives de 'Makefile' ==
+
+	all
+		Compil tous les fichiers
+	
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet
+	
+	proper 
+		Suppression de tous les binaires, de tous les fichiers objet
+
+
+== Etat d'avancement ==
+
+	L'exercice 1 - OK
+	
+	L'exercice 2 - OK
+	
+	L'exercice 3 - OK
+	
+	L'exercice 4 - OK 
+			
+== Réponses ==
+
+****************
+Exercice 1:
+
+Ce programme ne marchera pas correctement avec plusieurs fils CAR si il en crée plusieurs et 
+ensuite fait un long traitement avec le signal SIGCHLD masqué , les fils enveront plusieurs signaux SIGCHLD au père, 
+mais ne mettra le bit du vecteur de signaux une seule fois à 1.
+
+****************
+Exercice 2: Aucune question
+
+****************
+Exercice 3:
+
+Remarques : avant la synchronisation, les processus se terminent un peu n'importe comment.
+
+Le nombre minimum de signaux requis pour obtenir une telle synchronisation est "2" CAR 
+au cas ou les deux fils envoient leur signal au meme moment (SI c'est le meme signal !!), 
+un des deux signaux pourrait etre ignoré par le pere. 
+
+****************
+Exercice 4: Aucune question

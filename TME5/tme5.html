@@ -1,0 +1,43 @@
+<h1 align="justify" style="text-align: center;">TME5 - Gestion avanc&eacute;e des signaux</h1>
+<h2 align="justify"><br />
+Objectifs</h2>
+<div align="justify">
+<ol>
+    <li>Approfondir sa connaissance de la communication inter-processus, au moyen de signaux.</li>
+    <li>Programmer des &eacute;changes complexes de signaux entre processus.</li>
+    <li>G&eacute;rer finement le traitement des signaux dans les programmes.</li>
+
+</ol>
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<h2 align="justify">Exercices</h2>
+N.B: Merci infiniment &agrave; Luciana Arantes pour tous ces excellents sujets d'exercices.<br />
+<h3 align="justify">Exercice 1 : Programmation de l'appel syst&egrave;me WAIT</h3>
+<div style="text-align: justify; margin-left: 40px;">La fonction <code>wait</code> permet &agrave; un processus p&egrave;re de bloquer en attente de la terminaison de son fils. Un signal <code>SIGCHLD</code> est envoy&eacute; au p&egrave;re lors d'une telle terminaison ; cependant, le traitement par d&eacute;faut est de l&rsquo;ignorer. <br />
+
+En changeant le traitement par d&eacute;faut de <code>SIGCHLD</code>, &eacute;crivez une fonction <code><span style="font-family: Courier;">mywait</span></code> qui permet &agrave; un processus p&egrave;re d'attendre la terminaison de son fils <i><b>sans</b></i> prendre connaissance de l&rsquo;&eacute;tat de terminaison. Il va sans dire que la fonction <code>wait</code> ne doit pas appara&icirc;tre dans le code. <br />
+
+<span style="font-weight: bold;"><br />
+Observation</span>s : <br />
+<ol>
+    <li><span style="font-style: italic; font-weight: bold;">On ne consid&egrave;re qu&rsquo;un seul processus fils</span>.</li>
+    <li>Comme dans la fonction <code>wait</code>, il se peut que le processus fils meure avant que le processus p&egrave;re ne d&eacute;cide de prendre connaissance de sa terminaison. Il faut consid&eacute;rer ce probl&egrave;me dans votre solution. Utilisez la fonction <code>sleep</code> pour simuler ce type de retard et tester votre solution.</li>
+
+    <li>A l'oppos&eacute; de l'appel <code>wait</code> classique, <code>mywait</code> ne permettra pas de connaitre le code de retour du fils au moment de sa terminaison.</li>
+</ol>
+Ce programme marcherait-il correctement avec plusieurs processus fils ? Justifiez votre r&eacute;ponse.<br />
+&nbsp;</div>
+<h3 align="justify">Exercice 2 : Programmation de l'appel syst&egrave;me SLEEP</h3>
+
+<div style="text-align: justify; margin-left: 40px;">La fonction <code>unsigned int sleep (int sec)</code> endort le processus courant pendant <code><span style="font-style: italic;">sec</span></code> secondes, ou jusqu&rsquo;&agrave; ce qu'un signal soit captur&eacute;. La fonction renvoie 0 si la dur&eacute;e pass&eacute;e en argument s'est enti&egrave;rement &eacute;coul&eacute;e, ou le nombre de secondes restantes en cas d&rsquo;un signal captur&eacute;. &nbsp;</div>
+
+<p>Programmez la fonction <code>mysleep</code> en utilisant la fonction <code>alarm</code> et le signal <code>SIGALRM</code>. Comme recommand&eacute; dans la sp&eacute;cification de la fonction <code>sleep</code>, nous consid&eacute;rerons que lorsque l&rsquo;usager utilise la fonction <code>sleep</code> dans son programme, il n&rsquo;y utilise ni la fonction <code>alarm </code>ni le signal <code>SIGALRM</code>.</p>
+
+<div style="text-align: justify; margin-left: 40px;"><br />
+<span style="font-weight: bold;">Observations</span> : Si votre fonction masque des signaux ou remplace le traitement par d&eacute;faut d&rsquo;un signal il faut penser &agrave; restaurer le masque et/ou les traitements originaux.</div>
+<br />
+<h3 align="justify">Exercice 3 : Synchronisation &agrave; 3 processus</h3>
+<div style="text-align: justify; margin-left: 40px;">Le programme ci-dessous (<a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME5/synchro3.c">&eacute;galement disponible en t&eacute;l&eacute;chargement</a>) cr&eacute;e deux processus fils. Les trois processus ex&eacute;cutent alors les fonctions calcul_1()&nbsp; et calcul_2() dont les dur&eacute;es sont importantes.<br />
+
