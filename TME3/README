@@ -1,0 +1,87 @@
+TME3
+
+== Participants : 1 ==
+
+   Bielle Benjamin 2900825
+   
+
+== Fichiers inclus ==
+
+        SRC/passageDonnee.c
+		Creation d'une chaine de processus.
+		[EX. 1]
+			      
+        SRC/fork-exec.c
+		Recouvrement de code (comparaison des fonctions date et gettimeofday).
+		[EX. 2]
+        
+	SRC/compil.c
+		Effectue la compilation séparée des fichiers .c en argument.
+		[EX. 3]
+			      
+        SRC/ex4.c
+		Programme qui se lance 5 fois lui-meme puis s'arrete.
+		[EX. 4]
+              
+	SRC/spy-incomplete.c
+		Creation d'un fils pour chaque commande ecrit sur le flux d'entre et execute cette commande.
+		[EX. 5]
+        
+== Directives de 'Makefile' ==
+
+   all
+	Compil tous les fichiers
+	
+   clean
+        Suppression de tous les binaires, de tous les fichiers objet
+		
+   proper 
+        Suppression de tous les fichiers temporaires
+	
+   runCompil
+	Permet de tester la compilation effectuee a l'exercice 3
+
+== Etat d'avancement ==
+
+   L'exercice 1 - OK
+   
+   L'exercice 2 - OK
+   
+   L'exercice 3 - OK
+   
+   L'exercice 4 - OK 
+   
+   L'exercice 5 - OK 
+   	      
+== Réponses ==
+
+Exercice 1 :
+	    
+Il n'est pas possible de faire réaliser cet affichage par le programme principal
+car les valeurs données dans les tableaux tabPere et tabFils seront ecrasées
+(fin des processus) à la fin de la fonction auxFunction, 
+donc on doit faire l'affichage après la création du dernier processsus. 
+
+1°)Il est impossible de faire réaliser cet affichage par le programme principal
+   car le programme principal lorsqu'il crée des fils n'a plus acces au valeurs
+   du tableau.
+   Donc il lui est impossible d'afficher les pids de ses fils.
+
+	  
+Exercice 2 :
+
+L'affichage du programme est le suivant :
+
+   Resultat de la commande 'date'
+   1360570941
+
+On peut l'expliquer par le fait que la commande execlp(), 
+si elle s'est bien passée, ne retourne jamais puisqu'elle détruit (remplace) 
+le code du programme appelant.
+
+Exercice 4 :
+
+On observe au niveau des PID affichés qu'ils sont tous identiques.
+On peut expliquer cela par le fait que l'on utilise la commande "execlp" 
+ce qui a pour effet d'executer le nouveau programme au sein de 
+l'espace d'adressage du processus appelant donc le PID sera le meme.
