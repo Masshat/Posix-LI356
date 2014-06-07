@@ -1,0 +1,79 @@
+TME10-11
+
+== Participants : 1 ==
+
+   Bielle Benjamin 2900825
+
+== Fichiers inclus ==
+
+   include/myqueue.h:
+          Définitions (types et opérations) pour une bibliothèque de file de message
+    
+   src/myqueue.c:
+          Corps des fonction définies dans myqueue.h
+	 
+   src/test1_myqueue.c:
+          Main de test numero 1
+
+   src/test2_myqueue.c:
+          Main de test numero 2
+
+   log/err_log :
+          détail des éxecutions.
+    
+== Directives de 'Makefile' ==
+
+    run1
+          Lancement de l'exécutable TEST1_myqueue
+          tel que : bin/TEST1_myqueue 2> err_log
+    
+    run2
+          Lancement de l'exécutable TEST2_myqueue
+          tel que : bin/TEST2_myqueue 2> err_log
+    
+    all
+          Compil tout le programme
+    
+    proper
+	 Suppression de tous les fichiers temporaires
+
+    clean
+         Suppression de tous les binaires, des fichiers objets , et de la bibliothèque
+	 
+    cleanall
+	Suppression de tous les repertoires bin, obj et log
+
+== Etat d'avancement ==
+
+    mq_open    - OK
+    mq_close   - OK
+    mq_unlink  - OK
+    mq_getattr - OK
+    mq_setattr - OK
+    mq_send    - OK
+    mq_receive - OK
+    mq_notify  - OK
+
+== Réponses ==
+
+Je pense avoir remarqué un problème dans l'execution de TEST2_myqueue
+<man mq_notify>
+
+     // 1
+Message  notification  only  occurs  when a new message arrives and the queue was previously empty.  
+If the queue was not empty at the time mq_notify() was called, then a notification will only occur after 
+the queue is emptied and a new message arrives.
+
+    // 2
+If another process or thread is waiting to read a message from an empty queue using mq_receive(), 
+then any message notification regis-tration  is ignored: the message is delivered to the process or 
+thread calling mq_receive(), and the message notification registration remains in effect.
+</man mq_notify>
+
+une execution possible de test2_myqueue peut etre :
+    - fils 1 bloqué dans le sem_wait(reader);
+    - fils 2 envoie le premier message : pas de notification due a la contrainte 2.
+    - fils 2 envoie le deuxieme message : pas de notification due aux contraintes 1 et 2.
+    - fils 2 reveil le père.
+    - fin fils 2.
+    - pere en attente de reveption de la notification // ne sera jamais reveillé.

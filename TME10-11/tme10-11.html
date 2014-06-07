@@ -1,0 +1,72 @@
+<h1 align="justify" style="text-align: center;">TME 10 &amp; 11 - M&eacute;moire partag&eacute;e et S&eacute;maphores (2)</h1>
+<h1 align="justify" style="text-align: center;">File de  Messages POSIX</h1>
+<h2 align="justify"><br />
+Objectif</h2>
+<div align="justify">
+<div style="margin-left: 40px;">L&rsquo;objectif de ce TME est de proposer une biblioth&egrave;que qui respecte la sp&eacute;cification  POSIX des files de messages.<br />
+
+<br />
+<b><i>N.B: ce TME se fait sur deux s&eacute;ances ; vous soumettrez votre travail dans une seule archive &agrave; la fin de la deuxi&egrave;me semaine.</i></b></div>
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<h2 align="justify">Pr&eacute;sentation</h2>
+<div style="margin-left: 40px; text-align: justify;">Il s'agit bien  &eacute;videmment d'une version tr&egrave;s simplifi&eacute;e. <br />
+
+<br />
+Pour commencer, les messages ont tous le m&ecirc;me format :<br />
+<div style="margin-left: 40px;"><code>typedef char msg_data[32];</code></div>
+<br />
+De plus, chaque file est <span style="font-weight: bold;">enti&egrave;rement</span> contenue dans un m&ecirc;me segment de m&eacute;moire partag&eacute; : &agrave; la fois l'ensemble des messages qu'elle contient, et les m&eacute;ta-donn&eacute;es qui la d&eacute;crivent (<a href="#Repr&eacute;sentation_de_la_file">voir  plus bas</a>.)<br />
+
+<br />
+Ensuite, certaines <a href="#Op&eacute;rations_sur_la_file_">op&eacute;rations  sur les files</a> ont &eacute;t&eacute; <span style="font-weight: bold;">supprim&eacute;es</span>  : <code>mq_timedsend</code> et <code>mq_timedreceive</code>.<br />
+
+<br />
+Enfin, on consid&egrave;rera qu'un m&ecirc;me processus ne peut utiliser plus d'une  file &agrave; la fois. Par contre, <span style="font-weight: bold;">plusieurs  processus peuvent acc&eacute;der &agrave; la m&ecirc;me file de mani&egrave;re concurrente</span>.<br />
+<br />
+<br />
+Une file doit cependant pr&eacute;senter <a href="http://www.opengroup.org/onlinepubs/000095399/basedefs/mqueue.h.html">toutes  les propri&eacute;t&eacute;s de la sp&eacute;cification POSIX</a> :<br />
+
+<ul>
+    <li>Elle doit &ecirc;tre bloquante en &eacute;criture quand elle est pleine, &agrave; moins  qu'elle ne v&eacute;rifie le flag <code>O_NONBLOCK</code></li>
+    <li>Elle doit &ecirc;tre bloquante en lecture quand elle est vide, &agrave;  moins qu'elle ne v&eacute;rifie le flag <code>O_NONBLOCK</code></li>
+
+    <li>Les messages doivent y &ecirc;tre ins&eacute;r&eacute;s de mani&egrave;re FIFO par ordre de  priorit&eacute; (<a href="http://www.opengroup.org/onlinepubs/000095399/functions/mq_send.html">cf. la sp&eacute;cification de mq_send</a>)</li>
+</ul>
+Quelques explications suivent pour vous aider &agrave; concevoir et impl&eacute;menter  votre file.</div>
+
+<br />
+<h3 align="justify" style="margin-left: 40px;"><a name="Repr&eacute;sentation_de_la_file"></a>Repr&eacute;sentation de la file</h3>
+<div style="text-align: justify; margin-left: 40px;">A chaque file de messages est associ&eacute; un segment de  m&eacute;moire partag&eacute;e portant le m&ecirc;me nom que la file.<br />
+<br />
+Ce segment contient d'une part les m&eacute;ta-donn&eacute;es relatives &agrave; la file. Ces m&eacute;ta-donn&eacute;es sont regroup&eacute;es dans une structure <code>struct mq_attr</code> que vous pouvez retrouver dans le fichier d'en-t&ecirc;te <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME10/myqueue.h"><code>myqueue.h</code></a> ; vous &ecirc;tes invit&eacute;s &agrave; reprendre ce fichier pour programmer votre file.<br />
+
+<br />
+Le segment de m&eacute;moire partag&eacute;e contient d'autre part les messages de la file elle-m&ecirc;me. Ici encore, vous &ecirc;tes libres d'organiser le stockage des messages de la mani&egrave;re qui vous convient.</div>
+<br />
+<h3 align="justify" style="margin-left: 40px;"><a name="Op&eacute;rations_sur_la_file_"></a>Op&eacute;rations sur la file</h3>
+<div style="text-align: justify; margin-left: 40px;">Les op&eacute;rations que  vous devez impl&eacute;menter r&eacute;pondent aux <a href="http://www.opengroup.org/onlinepubs/000095399/basedefs/mqueue.h.html">sp&eacute;cifications  de &lt;mqueue.h&gt; dans la norme POSIX</a>.<br />
+
+<br />
+Ces op&eacute;rations sont les suivantes :<br />
+<br />
+<div style="margin-left: 40px;"><code>mqd_t mq_open(const char *nom, int  mq_flags, int mode);<br />
+int mq_close(mqd_t mqdes);<br />
+int mq_unlink(const char *name);<br />
+<br />
+int mq_getattr(mqd_t mqdes, struct mq_attr *mqstat);<span style="font-style: italic;"><br />
+</span>int mq_setattr(mqd_t mqdes, const struct mq_attr *restrict  mqstat, struct mq_attr *restrict omqstat);<br />
+<br />
+
+int mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned  msg_prio);<br />
+<br />
+ssize_t mq_receive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned  *msg_prio);<br />
+<br />
+mqd_t mq_notify(mqd_t mqdes, const struct sigevent *notification); </code></div>
+<br />
+Ces op&eacute;rations ayant &eacute;t&eacute; vues en cours, il n'y a pas lieu ici de les  d&eacute;crire plus avant. Pour tester votre impl&eacute;mentation, nous mettons &agrave; votre disposition les fichiers de test <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME10/test1_myqueue.c"><code>test1_myqueue.c</code></a> et <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME10/test2_myqueue.c"><code>test2_myqueue.c</code></a></div>
+
+<br />
+
