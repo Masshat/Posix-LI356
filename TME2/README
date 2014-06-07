@@ -1,0 +1,124 @@
+== Participants : 1 ==
+
+	Benjamin BIELLE
+	Tristan TODIE 
+
+== Fichiers inclus ==
+
+	include/converters.h
+		Définitions (types et opérations) pour la conversion d une devide
+		[Ex. 5]
+		
+	include/decoder.h
+		Définitions (types et opérations) pour la creation d un carre magique
+		[Ex. 4]	
+		
+	src/creeNProcess.c
+		Programme (main) creant un pere et n processus fils (recursif et iteratif)
+		[Ex. 1]
+
+	src/creeProcessWait.c
+		Programme (main) permettant des synchronisation pere-fils
+		[Ex. 2]
+
+	src/arbreCreation.c
+		Programme (main) : exercice 3
+		[Ex. 3]
+
+	src/decoder.c
+		Programme (main) permettant la construction d un carre magique
+		[Ex. 4]
+		
+    	src/converters.c
+		Programme (main) : convertisseur de devise
+		[Ex. 5]
+
+== Directives de 'Makefile' ==
+	
+	all
+		Renvoi vers les binaires
+	
+	directories
+		Création des répertoires temporaires s'ils n'existent pas déjà
+
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet, et de toutes les bibliothèques
+
+
+	cleanall
+		Suppression des répertoires et fichiers 
+
+== Etat d'avancement ==
+
+	L'exercice 1 - OK
+	
+	L'exercice 2 - OK
+
+	L'exercice 3 - OK
+
+	L'exercice 4 - OK
+
+	L'exercice 5 - OK
+
+== Réponses ==
+
+	Exercice 3 :
+
+	Nous avons normalement 7 processus créés
+	-> 6 processus sont créés par les instructions fork()
+	-> 1 processus est créé par le main
+
+	Schema :
+	
+---------------------------------------------------------------X
+     |      |       |
+     |      |       |
+     |      |       ------------------------------X 
+     |      |       i=2  |      |
+     |      |            |      |
+     |      |            -----------------X
+     |      |            j=0    | 
+     |	    |                   --------------X
+     |	    |                   j=1
+     |      --------------------------X 
+     |      i=1  |
+     |           |
+     |           ------------------X
+     |           j=0
+     |				 
+     |
+     |
+     ------------------X
+     i=0
+
+
+     int main (int arg, char* argv[]) {
+
+        int i, j, p, status;
+
+        for (i=0; i<3 ; i++)
+
+            if ((p=fork ()) == 0) {
+
+                printf ("i=%d\n", i);
+                j=0;
+                while (j<i && ((p=fork()) == 0))
+
+                    j++;
+
+                if (p==0)
+
+                    printf(“j=%d\n",j);
+
+                exit(j);
+
+            } 
+	for(i=0; i<11; i++)
+      	 if(wait(&status)==-1){
+	    perror("wait");
+	    exit(2);
+	}
+		
+        return (0);
+
+    }
