@@ -1,0 +1,125 @@
+TME9
+
+== Participants : 1 ==
+
+	Bielle Benjamin 2900825
+	
+
+== Fichiers inclus ==
+   	
+	include/converter.h
+		Definitions des fonctions de conversion de devises.
+	    
+   	src/capitalize.c
+		Lit une chaine de caracteres sur l'entree standard pour l'ecrire en majuscule
+		sur la sortie standard.
+		[EX. 1]
+		
+        src/converters_client.c
+		Client utilisé avec multi_converter.
+		[EX. 2]
+        
+	src/multi_converter.c
+		Attends la liberation du mutex client pour lire les donnees envoyees par le client
+		sur la memoire partagee, puis envoie a ses fils les requetes qui lui renverront le
+		resultat, le pere renverra a son tour le resultat au client.
+		[EX. 2]
+                
+== Directives de 'Makefile' ==
+
+	all
+		Compil tous les fichiers
+
+	proper 
+		Suppression de tous les fichiers temporaires
+	
+	clean
+		Suppression de tous les binaires, de tous les fichiers objet
+	
+	cleanall 
+		Suppression des repertoires obj et bin
+
+	run1
+		Lance l'executable CAPITALIZE
+		
+        run2
+		Lance le client CONVERTERS_CLIENT
+		Usage : make run2 DEVISE=CNY MONTANT="100.0"
+        
+        run 3
+		Lance le server MULTI_CONVERTER
+
+
+== Etat d'avancement ==
+
+	L'exercice 1 - OK
+	
+	L'exercice 2 - OK
+			
+== EXEMPLES ==
+
+** Exemple d'execution **
+
+#== CLIENT ==#
+
+bash$ make run2 DEVISE=CNY MONTANT="100.0"
+CNY 100.000000
+wait
+# CNY : 100.000000
+EUR : 10.246112
+GBP : 6.985287
+USD : 12.357835
+JPY : 1406.791123
+CNY : 100.000000
+
+bash$ make run2 DEVISE=EUR MONTANT="100.0"
+EUR 100.000000
+wait
+# EUR : 100.000000
+EUR : 100.000000
+GBP : 68.175000
+USD : 120.610000
+JPY : 13730.000000
+CNY : 975.980000
+
+bash$ make run2 DEVISE=GBP MONTANT="100.0"
+GBP 100.000000
+wait
+# GBP : 100.000000
+EUR : 146.681335
+GBP : 100.000000
+USD : 176.912358
+JPY : 20139.347268
+CNY : 1431.580491
+
+bash$ make run2 DEVISE=USD MONTANT="100.0"
+USD 100.000000
+wait
+# USD : 100.000000
+EUR : 82.911865
+GBP : 56.525164
+USD : 100.000000
+JPY : 11383.799022
+CNY : 809.203217
+
+bash$ make run2 DEVISE=JPY MONTANT="100.0"
+JPY 100.000000
+wait
+# JPY : 100.000000
+EUR : 0.728332
+GBP : 0.496540
+USD : 0.878441
+JPY : 100.000000
+CNY : 7.108376
+
+#== SERVEUR ==#
+
+bash$ make run3
+run
+inwait
+reveived CNY 100.000000	post mutexp
+reveived EUR 100.000000	post mutexp
+reveived GBP 100.000000	post mutexp
+reveived USD 100.000000	post mutexp
+reveived JPY 100.000000	post mutexp
+^Csigint hangler

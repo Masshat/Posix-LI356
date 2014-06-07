@@ -1,0 +1,45 @@
+<h1 align="justify" style="text-align: center;">TME9 - M&eacute;moire partag&eacute;e et S&eacute;maphores</h1>
+<h2 align="justify"><br />
+Objectif</h2>
+<div align="justify">
+<div style="margin-left: 40px;">L&rsquo;objectif de ce TME est de programmer des applications POSIX reprenant des probl&egrave;mes classiques associ&eacute;s aux s&eacute;maphores et &agrave; la m&eacute;moire partag&eacute;e.</div>
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<h2>Remarque importante</h2>
+<div style="margin-left: 40px;">Les  s&eacute;maphores, et les segments de m&eacute;moire partag&eacute;e que vous cr&eacute;ez &agrave; chaque  ex&eacute;cution doivent imp&eacute;rativement &ecirc;tre <b>d&eacute;truits en fin de programme</b>.  Si vous ne respectez pas cette r&egrave;gle, vous risquez de vous retrouver  face &agrave; des comportements incoh&eacute;rents li&eacute;s &agrave; des variables dont les  valeurs sont rest&eacute;es en m&eacute;moire apr&egrave;s la terminaison du programme qui  les a cr&eacute;&eacute;es.<br />
+Vous pouvez trouver les &eacute;l&eacute;ments r&eacute;manents dans le r&eacute;pertoire <code>/dev/shm</code>. Pour les d&eacute;truire, il suffit de les effacer.<br />
+<br />
+Par ailleurs, n'oubliez pas qu'au moment de l'&eacute;dition de lien lors de la  compilation de vos binaires, il faut pr&eacute;ciser que vous utilisez la  biblioth&egrave;que RealTime ('<code>-lrt</code>' en fin de ligne dans votre fichier <code>Makefile</code>)&nbsp;</div>
+<h2>&nbsp;</h2>
+<h2 align="justify">Exercices</h2>
+<h3 align="justify">Exercice 1 : Producteur / Consommateur</h3>
+<div style="text-align: justify; margin-left: 40px;">Ecrire un programme <code>capitalize</code> qui r&eacute;cup&egrave;re les messages tap&eacute;s par l'utilisateur sur l'entr&eacute;e standard, convertit les caract&egrave;res minuscules en majuscules, et affiche le r&eacute;sultat sur la sortie standard.<br />
+<br />
+Ce programme met en &oelig;uvre 2 processus (un p&egrave;re et son fils) :<br />
+<div style="margin-left: 40px;">Le processus fils lit en boucle infinie sur l'entr&eacute;e standard, et passe les cha&icirc;nes de caract&egrave;res &agrave; son p&egrave;re au moyen d'un segment de m&eacute;moire partag&eacute;e. <br />
+Le p&egrave;re effectue lui aussi une boucle infinie dans laquelle il vient lire les messages en m&eacute;moire partag&eacute;e, convertit les caract&egrave;res minuscules en majuscules, et affiche le r&eacute;sultat.</div>
+</div>
+<h3 align="justify"><br />
+Exercice 2 : Lecteur / Ecrivain</h3>
+<div style="text-align: justify; margin-left: 40px;">On se propose de reprendre l&rsquo;<a href="http://australe.upmc.fr/access/content/group/LI356_01/Sujets%20de%20TME/TME8%20-%20Tubes#TME8EX3">exercice 3 du TME 8</a>, avec pour diff&eacute;rence que les &eacute;changes entre les processus se feront au moyen de segments de m&eacute;moire partag&eacute;e.<br />
+<br />
+L&rsquo;utilisateur doit pouvoir ouvrir deux fen&ecirc;tres de terminal, et lancer un programme serveur dans l&rsquo;une puis un programme client dans l&rsquo;autre.<br />
+Format des commandes de lancement :<br />
+<div style="margin-left: 40px;"><code>$ multi_converter &lt;<span style="font-style: italic;">nom_segment_echanges</span>&gt;<br />
+$ conversion_client &lt;<span style="font-style: italic;">nom_segment_</span><span style="font-style: italic;">echanges</span>&gt; &lt;<span style="font-style: italic;">devise</span>&gt; &lt;<span style="font-style: italic;">montant</span>&gt;</code><br />
+<div style="margin-left: 40px;">-&nbsp;&nbsp;&nbsp; <code><span style="font-style: italic;">nom_segment_</span><span style="font-style: italic;">echanges</span></code><span style="font-style: italic;"> </span>contient le chemin du&nbsp;segment de m&eacute;moire partag&eacute; par lequel transitent les requ&ecirc;tes et les r&eacute;ponses entre le programme client et le programme serveur.<br />
+-&nbsp;&nbsp;&nbsp; <code><span style="font-style: italic;">devise</span></code> repr&eacute;sente la devise source<br />
+-&nbsp;&nbsp;&nbsp; <code><span style="font-style: italic;">montant</span></code> correspond au montant &agrave; convertir dans la devise cible.</div>
+</div>
+<br />
+Les param&egrave;tres entr&eacute;s comme arguments de <code>conversion_client</code> sont transmis au serveur au moyen d'un segment de m&eacute;moire partag&eacute;e. Le serveur effectue la conversion puis renvoie le r&eacute;sultat au client <span style="font-weight: bold;">dans ce m&ecirc;me segment</span>. Enfin le client affiche le r&eacute;sultat re&ccedil;u en r&eacute;ponse &agrave; sa requ&ecirc;te.<br />
+<br />
+Le programme serveur, nomm&eacute; <code>multi_converter</code>, cr&eacute;e <code>NB_CONVERTERS</code> processus fils qui bouclent en attente de requ&ecirc;tes de conversion. Chacun de ces fils prend en charge la conversion dans une devise convenue. A chaque r&eacute;ception de requ&ecirc;te, le p&egrave;re distribue le travail parmi ses fils au moyen d'un <span style="font-weight: bold;">unique</span> segment de m&eacute;moire partag&eacute;e (ie. segment commun pour tous les fils). Lorsqu'un fils termine une conversion, il &eacute;crit le r&eacute;sultat en m&eacute;moire partag&eacute;e. Quand chacun de ses fils a &eacute;crit son r&eacute;sultat en m&eacute;moire partag&eacute;e, le p&egrave;re vient lire l'ensemble des r&eacute;sultats et renvoie la r&eacute;ponse compl&egrave;te au client.<br />
+<br />
+Lorsqu&rsquo;il est interrompu, le serveur ferme et d&eacute;truit&nbsp;les IPCs utilis&eacute;s.<br />
+<br />
+N.B: Cette nouvelle architecture <span style="font-weight: bold;">ne requiert plus l'utilisation de signaux</span> pour pr&eacute;venir le p&egrave;re qu'un r&eacute;sultat de conversion est disponible. Vous &ecirc;tes donc invit&eacute;s &agrave; ne pas utiliser de signaux dans votre programme.<br />
+&nbsp;</div>
+<br />
