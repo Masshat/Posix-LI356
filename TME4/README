@@ -1,0 +1,132 @@
+TME4
+
+== Participants : 1 ==
+
+	Bielle Benjamin 2900825
+	
+
+== Fichiers inclus ==
+
+   	src/init-sig.1.c
+		Mini-programme pour tester les signaux (EXECUTABLE : bin/EX1_1)
+		[EX. 1]
+       
+        src/init-sig.2.c
+		Mini-programme pour tester les signaux (EXECUTABLE : bin/EX1_2)
+		[EX. 1] 
+ 	
+	src/init-sig.3.c
+		Mini-programme pour tester les signaux (EXECUTABLE : bin/EX1_3)
+ 		[EX. 1]
+		
+        src/init-sig.4.c
+		Mini-programme pour tester les signaux (EXECUTABLE : bin/EX1_4)
+		[EX. 1]
+	
+	src/init-sig.5.c
+		Mini-programme pour tester les signaux (EXECUTABLE : bin/EX1_5)
+		[EX. 1]
+       
+	src/voodoo.c
+		Creation d'un processus zombie (EXECUTABLE : bin/VOODOO)
+		[EX. 2]
+
+	src/pending-signals.c
+		Signaux pendants (EXECUTABLE : bin/EX3)
+		[EX. 3]
+		
+        src/pending-signals-2.c
+		Changement des routines de traitement (EXECUTABLE : bin/EX4)
+		[EX. 4]
+		
+        src/pending-signals-3.c
+		Changement du traitement par default (EXECUTABLE : bin/EX5)
+		[EX. 5]
+	
+	src/accountant.c
+		Comptabilise le nombre de signaux delivres (EXECUTABLE : bin/ACCOUNTANT)
+		[EX. 6]
+		
+	src/spy.c
+		Programme se comportant comme une surcouche du shell (EXECUTABLE : bin/SPY)
+		[EX. 7]
+
+== Directives de 'Makefile' ==
+
+	all
+		Compile tous les fichiers
+	
+	clean
+		Supprime tous les binaires et tous les fichiers objet
+	
+	proper 
+		Supprime tous les fichiers temporaires
+
+
+== Etat d'avancement ==
+
+	L'exercice 1 - OK
+	
+	L'exercice 2 - OK
+	
+	L'exercice 3 - OK
+	
+	L'exercice 4 - OK 
+	
+	L'exercice 5 - OK 
+	
+	L'exercice 6 - OK
+
+	L'exercice 7 - OK
+		
+== Reponses ==
+
+****************
+Exercice 1:
+
+- Le programme "init-sigs.1.c" ne se termine pas de lui-même et a besoin d'etre debloque a l'aide d'un seul "SIGINT" (ce qui a pour effet de le terminer).
+  Les affichages qu'il comporte ne se font pas.
+  Ce programme fait deux pauses.
+
+- Le programme "init-sigs.2.c" ne se termine pas de lui-même et a besoin d'etre debloque a l'aide d'un seul "SIGINT" (ce qui a pour effet de le terminer).
+  Les affichages qu'il comporte ne se font pas.
+  Ce programme applique un masque qui masque tout les signaux sauf sigint puis lance un sigsuspend(), a la reception d'un sigint le programme se termine.
+
+- Le programme "init-sigs.3.c" ne se termine pas de lui-même.
+  Les affichages qu'il comporte ne se font pas.
+  Ce programme ignore le signal "SIGALARM" et masque le signal "SIGINT".
+
+- Le programme "init-sigs.4.c" ne se termine pas de lui-même.
+  Le premier affichage se fait mais les deux autres ne se font pas.
+  Ce programme masque tous les signaux SAUF le signal "SIGINT" : son traitement par default a ete redefini (et dans cette redefinition on ignore le signal "SIGINT").
+
+- Le programme "init-sigs.5.c" ne se termine pas de lui-même.
+  Les affichages qu'il comporte se font tous.
+  Ce programme masque tous les signaux SAUF les signaux "SIGINT" et "SIGALARM" (dont il redefini le traitement par default).
+
+****************
+Exercice 2:
+
+Des que l'on essaye de faire un "SIGKILL" sur le processus zombie cela ne marche pas (donc on ne peut pas le tuer).
+
+****************
+Exercice 3:
+
+Si on demasque les signaux "SIGINT" et "SIGQUIT" avant, il est possible que le programme se termine CAR si le programme a reçu un de ces signaux (ce signal est pendant au programme) le fait de le demasquer terminera le programme.
+
+****************
+Exercice 4:
+
+Ce programme resout le probleme de l'exercice 3 CAR au moment du demasquage les signaux "SIGINT" et "SIGQUIT" sont ignores.
+
+****************
+Exercice 5:
+
+Ce programme resout le probleme de l'exercice 3 CAR le traitement par default des signaux "SIGINT" et "SIGQUIT" est redefini, la valeur maximal affiche par le compteur sera "1" (car le vecteur de signaux ne compte pas -> il aura
+juste le bit de signal a 1 lorsqu'il le recevra).
+
+****************
+Exercice 6:
+
+****************
+Exercice 7:

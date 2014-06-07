@@ -1,0 +1,74 @@
+<h1 align="justify" style="text-align: center;">TME4 - Gestion des signaux</h1>
+<h2 align="justify"><br />
+Objectifs</h2>
+<div align="justify">
+<ol>
+    <li>S'initier  &agrave; la communication inter-processus, au moyen de signaux.</li>
+    <li>Programmer des &eacute;changes de signaux basiques entre processus.</li>
+    <li>Mettre en place des gestionnaires de signaux dans les programmes.</li>
+</ol>
+</div>
+<div style="margin-left: 40px; text-align: justify;">
+<h2 align="justify">&nbsp;</h2>
+</div>
+<div style="text-align: justify;">
+<h2 align="justify">Remarques</h2>
+<div align="justify"><blockquote>&nbsp;     </blockquote></div>
+<blockquote>
+<p align="justify">a. Un grand merci &agrave; Luciana Arantes et G&eacute;rard Nowak, qui m'ont laiss&eacute; piller sans vergogne leurs sujets d'exercices.</p>
+<p align="justify">b. Pour trouver les raccourcis claviers qui vous permettront d'envoyer un signal facilement &agrave; un processus, vous pouvez utiliser la commande <code>$ stty -a</code><br />
+Les raccourcis se trouvent dans les cchars : <code>SIGINT</code> (<code>cchar 'intr'</code>) est g&eacute;n&eacute;ralement associ&eacute; &agrave; <code>ctrl-C</code>, et <code>SIGQUIT</code> (<code>cchar 'quit'</code>) &agrave; <code>ctrl-\</code></p>
+<p align="justify">c. Le masquage de signaux conduit souvent &agrave; des programmes qui ne peuvent plus &ecirc;tre interrompus facilement (<code>SIGINT</code>). Dans une telle situation, il faut recourir &agrave; l'utilisation de <code>SIGKILL</code> depuis un terminal :</p>
+<div align="justify"><blockquote><code>$ kill -9 &lt;pid_pcs_condamne&gt;</code></blockquote></div>
+<blockquote> </blockquote>
+<p align="justify">&nbsp;</p>
+</blockquote></div>
+<h2 align="justify">Exercices</h2>
+<h3 align="justify">Exercice 1 : Premiers tests avec des signaux</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify"><a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME4/init-sigs.tgz">T&eacute;l&eacute;chargez ici les codes source de mini-programmes divers</a>.</p>
+<p align="justify">Compilez-les, puis testez-les pour voir :</p>
+<div align="justify">
+<ol>
+    <li>s'ils se terminent d'eux-m&ecirc;mes, ou s'ils ont besoin d'&ecirc;tre d&eacute;bloqu&eacute;s &agrave; l'aide d'un (ou plusieurs) <code>SIGINT</code>,</li>
+    <li>si tous les affichages qu'ils comportent sont bien ex&eacute;cut&eacute;s.</li>
+</ol>
+</div>
+<p align="justify">Expliquez bri&egrave;vement le comportement de  chacun de ces mini-programmes.</p>
+</div>
+<h3 align="justify">Exercice 2 : Zombie vs. SIGKILL</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify">Compilez le <a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME4/voodoo.c">code suivant</a>. Ce programme cr&eacute;e un processus zombie (un fils qui meurt sans <code>wait</code> de son p&egrave;re), observable &agrave; l'aide de la commande <code>$ps u</code> (status = <code>Z</code>)</p>
+<p align="justify">Tentez de forcer la terminaison du processus zombie avec un <code>SIGKILL</code>. Que se passe-t-il ?</p>
+</div>
+<h3 align="justify">Exercice 3 : Signaux pendants</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify">Ecrivez un programme <code>pending-signals</code> qui permet d'afficher si des signaux lui ont &eacute;t&eacute; envoy&eacute;s, mais n'ont pas encore &eacute;t&eacute; pris en compte.</p>
+<p align="justify">Ce programme fonctionne de la mani&egrave;re suivante : il masque les signaux <code>SIGINT</code> et <code>SIGQUIT</code>, puis s&rsquo;endort pendant 5 secondes &agrave; l'aide de la fonction <code>sleep</code>. A son r&eacute;veil, le programme doit afficher la liste des signaux qui lui sont pendants.</p>
+<p align="justify">Que peut-il se passer si le programme d&eacute;masque <code>SIGINT</code> et <code>SIGQUIT</code> avant d'afficher s'ils sont pendants ? Expliquez pourquoi.</p>
+</div>
+<h3 align="justify">Exercice 4 : Changement des routines de traitement par d&eacute;faut des signaux (<code>SIG_IGN</code>)</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify">Ecrivez un programme <code>pending-signals-2</code> qui reprend le programme pr&eacute;c&eacute;dent, mais dont le comportement par d&eacute;faut lors de la r&eacute;ception d'un <code>SIGINT</code> ou d'un <code>SIGQUIT</code> est de ne rien faire.</p>
+<p align="justify">Ce nouveau programme r&eacute;sout-il le probl&egrave;me de l'exercice 3 ? Justifiez votre r&eacute;ponse.</p>
+</div>
+<h3 align="justify">Exercice 5 : Changement du traitement par d&eacute;faut des signaux (nouvelle routine)</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify">Ecrivez un programme <code>pending-signals-3</code> qui reprend le programme pr&eacute;c&eacute;dent, mais dont le comportement par d&eacute;faut lors de la d&eacute;livrance d'un <code>SIGINT</code> est d'incr&eacute;menter un compteur et d'afficher la valeur de ce compteur.</p>
+<p align="justify">Quelle sera la valeur maximale affich&eacute;e pour le compteur ? Justifiez votre r&eacute;ponse.</p>
+<p align="justify">Ce nouveau programme r&eacute;sout-il le probl&egrave;me  de l'exercice 3 ? Justifiez  votre r&eacute;ponse.</p>
+</div>
+<h3 align="justify">Exercice 6 : Comptabilisation de signaux</h3>
+<div align="justify"><blockquote>R&eacute;diger un programme <b><code>accountant</code></b> qui comptabilise le nombre de signaux d&eacute;livr&eacute;s.<br />
+Une fois lanc&eacute;, <code>accountant</code> boucle ind&eacute;finiment en attente de signaux. Pour chaque signal d&eacute;livr&eacute;, il incr&eacute;mente deux compteurs : un compteur global qui fait la somme de l'ensemble des signaux captur&eacute;s, et un compteur relatif &agrave; la valeur du signal d&eacute;livr&eacute;.</blockquote></div>
+<blockquote>
+<p align="justify">Le programme se termine lorsqu'il a d&eacute;livr&eacute; un nombre <code>MAX_INTR</code> de signaux <code>SIGINT</code>. Il affiche alors l'ensemble de ses statistiques : la valeur de chacun de ses compteurs relatifs, ainsi que celle de son compteur global.</p>
+</blockquote>
+<h3 align="justify">Exercice 7 : Espionnage de shell (revisit&eacute;)</h3>
+<div style="text-align: justify; margin-left: 40px;">
+<p align="justify">R&eacute;diger un programme <b><code>spy</code></b> qui se comporte comme une surcouche du shell.<br />
+Une fois lanc&eacute;, <code>spy</code> r&eacute;cup&egrave;re toute commande rentr&eacute;e par l'utilisateur (cf. le squelette de programme &agrave; compl&eacute;ter &quot;<a href="http://australe.upmc.fr/access/content/group/LI356_01/Base%20de%20code/TME3/spy-incomplete.c"><code>spy-incomplete.c</code></a>&quot;) et <em><strong>pr&eacute;pare</strong></em> l'ex&eacute;cution de cette commande au moyen d'une fonction <code>exec</code> dans un processus fils.<br />
+On utilisera <code>execlp</code> pour les commandes entr&eacute;es avec exactement un argument, <code>execvp</code> pour toutes les autres.</p>
+<p align="justify">Cependant un fils n'ex&eacute;cute pas sa commande imm&eacute;diatement apr&egrave;s avoir &eacute;t&eacute; lanc&eacute;. Au lieu de cela, il se met en attente d'un signal de son p&egrave;re. Le programme principal attend que <code>NBUF</code> commandes aient &eacute;t&eacute; entr&eacute;es, puis notifie &agrave; tous ses fils qu'ils peuvent ex&eacute;cuter leur commande. Une fois qu'une salve de commandes a &eacute;t&eacute; lanc&eacute;e, le p&egrave;re attend que tous ses fils se soient termin&eacute;s avant de pr&eacute;parer la salve suivante.</p>
+<div align="justify"><blockquote>&nbsp;</blockquote></div>
+</div>
